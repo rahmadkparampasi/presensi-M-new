@@ -250,7 +250,7 @@ class _AbsensiBottomKalDetailSectionState
                           img: false,
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 50,
                         ),
                       ],
                     ),
