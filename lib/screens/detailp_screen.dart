@@ -67,7 +67,9 @@ class _DetailPScreenState extends State<DetailPScreen> {
       backgroundColor: mBackgroundColor,
       body: _isLoading
           ? const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                color: mBluePu,
+              ),
             )
           : _isError
               ? Center(

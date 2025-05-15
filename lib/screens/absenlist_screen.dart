@@ -171,55 +171,7 @@ class _AbsenlistScreenState extends State<AbsenlistScreen> {
         ],
       ),
       backgroundColor: mBackgroundColor,
-      bottomNavigationBar: Container(
-        height: 90,
-        decoration: BoxDecoration(
-          color: mFillColor,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
-              spreadRadius: 2,
-              blurRadius: 15,
-              offset: const Offset(0, 5),
-            )
-          ],
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(24),
-            topRight: Radius.circular(24),
-          ),
-        ),
-        child: BottomNavigationBar(
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/icons/home.svg',
-                height: 20,
-              ),
-              label: 'Beranda',
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/icons/absen.svg',
-                height: 20,
-              ),
-              label: 'Absen',
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/icons/user.svg',
-                height: 20,
-              ),
-              label: 'Profil',
-            ),
-          ],
-          selectedItemColor: Colors.black,
-          backgroundColor: Colors.transparent,
-          selectedFontSize: 12,
-          showUnselectedLabels: true,
-          elevation: 0,
-          onTap: _onItemTapped,
-        ),
-      ),
+      bottomNavigationBar: BottomNavBar(),
       body: DoubleBackToCloseApp(
         snackBar: const SnackBar(
           content: Text('Tekan Tombol Kembali Sekali Lagi Untuk Keluar'),

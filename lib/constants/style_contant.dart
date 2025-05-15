@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:presensi/constants/color_constant.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:presensi/constants/sp_icon.dart';
 import 'package:presensi/constants/var_constant.dart';
+import 'package:presensi/screens/home_screen.dart';
 
 //style for title
 var mTitleStyle = GoogleFonts.inter(
@@ -307,6 +309,79 @@ class ButtonDTP extends StatelessWidget {
       width: 38,
       height: 38,
       child: child,
+    );
+  }
+}
+
+class BottomNavBar extends StatefulWidget {
+  const BottomNavBar({super.key});
+
+  @override
+  State<BottomNavBar> createState() => _BottomNavBarState();
+}
+
+class _BottomNavBarState extends State<BottomNavBar> {
+  void _onItemTapped(int index) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomeScreen(
+          changeOptions: index,
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 90,
+      decoration: BoxDecoration(
+        color: mFillColor,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 2,
+            blurRadius: 15,
+            offset: const Offset(0, 5),
+          )
+        ],
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(24),
+          topRight: Radius.circular(24),
+        ),
+      ),
+      child: BottomNavigationBar(
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              'assets/icons/home.svg',
+              height: 20,
+            ),
+            label: 'Beranda',
+          ),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              'assets/icons/absen.svg',
+              height: 20,
+            ),
+            label: 'Absen',
+          ),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              'assets/icons/user.svg',
+              height: 20,
+            ),
+            label: 'Profil',
+          ),
+        ],
+        selectedItemColor: Colors.black,
+        backgroundColor: Colors.transparent,
+        selectedFontSize: 12,
+        showUnselectedLabels: true,
+        elevation: 0,
+        onTap: _onItemTapped,
+      ),
     );
   }
 }

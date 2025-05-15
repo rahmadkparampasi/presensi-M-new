@@ -100,6 +100,7 @@ class _DetailScreenState extends State<DetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: mBackgroundColor,
       appBar: AppBar(
@@ -152,7 +153,9 @@ class _DetailScreenState extends State<DetailScreen> {
         ),
         child: _isLoading
             ? const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: mBluePu,
+                ),
               )
             : _isError
                 ? Center(
@@ -189,219 +192,190 @@ class _DetailScreenState extends State<DetailScreen> {
                           )
                         ],
                       )
-                    : Padding(
-                        padding: const EdgeInsets.only(left: 10, right: 10),
-                        child: Column(
-                          children: <Widget>[
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Center(
-                              child: Text(
-                                'DETAIL ABSENSI ${absenDetail!.absenTgl.toUpperCase()}',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
+                    : ListView(
+                        physics: const ClampingScrollPhysics(),
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            child: Column(
+                              children: <Widget>[
+                                const SizedBox(
+                                  height: 10,
                                 ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            SizedBox(
-                              height: 600,
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  children: <Widget>[
-                                    DetailItemWOIcon(
-                                      title: 'Status',
-                                      subtitle: absenDetail!.absenStatus,
-                                      isLast: false,
-                                      img: false,
+                                Center(
+                                  child: Text(
+                                    'DETAIL ABSENSI ${absenDetail!.absenTgl.toUpperCase()}',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    DetailItemWOIcon(
-                                      title: 'Tanggal',
-                                      subtitle: absenDetail!.absenTgl,
-                                      isLast: false,
-                                      img: false,
-                                    ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                    Text(
-                                      'MASUK',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18),
-                                    ),
-                                    Divider(),
-                                    DetailItemWOIcon(
-                                      title: 'Jam Masuk',
-                                      subtitle: absenDetail!.absenMsk,
-                                      isLast: false,
-                                      img: false,
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    DetailItemWOIcon(
-                                      title: 'Cepat Datang',
-                                      subtitle: absenDetail!.absenCd,
-                                      isLast: false,
-                                      img: false,
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    DetailItemWOIcon(
-                                      title: 'Lambat',
-                                      subtitle: absenDetail!.absenLmbt,
-                                      isLast: false,
-                                      img: false,
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    DetailItemWOIcon(
-                                      title: 'Lokasi Masuk',
-                                      subtitle: absenDetail!.absenMskLoc,
-                                      isLast: false,
-                                      img: false,
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    DetailItemWOIcon(
-                                      title: 'Foto Masuk',
-                                      subtitle: absenDetail!.absenMskPic,
-                                      isLast: false,
-                                      img: true,
-                                    ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                    Text(
-                                      'PULANG',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18),
-                                    ),
-                                    Divider(),
-                                    DetailItemWOIcon(
-                                      title: 'Jam Pulang',
-                                      subtitle: absenDetail!.absenKeluar,
-                                      isLast: false,
-                                      img: false,
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    DetailItemWOIcon(
-                                      title: 'Cepat Pulang',
-                                      subtitle: absenDetail!.absenCp,
-                                      isLast: false,
-                                      img: false,
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    DetailItemWOIcon(
-                                      title: 'Lambat Pulang',
-                                      subtitle: absenDetail!.absenLbh,
-                                      isLast: false,
-                                      img: false,
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    DetailItemWOIcon(
-                                      title: 'Lokasi Pulang',
-                                      subtitle: absenDetail!.absenKeluarLoc,
-                                      isLast: false,
-                                      img: false,
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    DetailItemWOIcon(
-                                      title: 'Foto Pulang',
-                                      subtitle: absenDetail!.absenPulangPic,
-                                      isLast: false,
-                                      img: true,
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    DetailItemWOIcon(
-                                      title: 'Jam Pulang Seharusnya',
-                                      subtitle: absenDetail!.absenPsn,
-                                      isLast: false,
-                                      img: false,
-                                    ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            )
-                          ],
-                        ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                SizedBox(
+                                  height: size.height / 1.2,
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: <Widget>[
+                                        DetailItemWOIcon(
+                                          title: 'Status',
+                                          subtitle: absenDetail!.absenStatus,
+                                          isLast: false,
+                                          img: false,
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        DetailItemWOIcon(
+                                          title: 'Tanggal',
+                                          subtitle: absenDetail!.absenTgl,
+                                          isLast: false,
+                                          img: false,
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        Text(
+                                          'MASUK',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18),
+                                        ),
+                                        Divider(),
+                                        DetailItemWOIcon(
+                                          title: 'Jam Masuk',
+                                          subtitle: absenDetail!.absenMsk,
+                                          isLast: false,
+                                          img: false,
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        DetailItemWOIcon(
+                                          title: 'Cepat Datang',
+                                          subtitle: absenDetail!.absenCd,
+                                          isLast: false,
+                                          img: false,
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        DetailItemWOIcon(
+                                          title: 'Lambat',
+                                          subtitle: absenDetail!.absenLmbt,
+                                          isLast: false,
+                                          img: false,
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        DetailItemWOIcon(
+                                          title: 'Lokasi Masuk',
+                                          subtitle: absenDetail!.absenMskLoc,
+                                          isLast: false,
+                                          img: false,
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        DetailItemWOIcon(
+                                          title: 'Foto Masuk',
+                                          subtitle: absenDetail!.absenMskPic,
+                                          isLast: false,
+                                          img: true,
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        Text(
+                                          'PULANG',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18),
+                                        ),
+                                        Divider(),
+                                        DetailItemWOIcon(
+                                          title: 'Jam Pulang',
+                                          subtitle: absenDetail!.absenKeluar,
+                                          isLast: false,
+                                          img: false,
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        DetailItemWOIcon(
+                                          title: 'Cepat Pulang',
+                                          subtitle: absenDetail!.absenCp,
+                                          isLast: false,
+                                          img: false,
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        DetailItemWOIcon(
+                                          title: 'Lambat Pulang',
+                                          subtitle: absenDetail!.absenLbh,
+                                          isLast: false,
+                                          img: false,
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        DetailItemWOIcon(
+                                          title: 'Lokasi Pulang',
+                                          subtitle: absenDetail!.absenKeluarLoc,
+                                          isLast: false,
+                                          img: false,
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        DetailItemWOIcon(
+                                          title: 'Foto Pulang',
+                                          subtitle: absenDetail!.absenPulangPic,
+                                          isLast: false,
+                                          img: true,
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        DetailItemWOIcon(
+                                          title: 'Jam Pulang Seharusnya',
+                                          subtitle: absenDetail!.absenPsn,
+                                          isLast: false,
+                                          img: false,
+                                        ),
+                                        const SizedBox(
+                                          height: 50,
+                                        ),
+                                        const Center(
+                                          child: SizedBox(
+                                            height: 200,
+                                            child: Column(
+                                              children: <Widget>[
+                                                Text('KEMENTRIAN PUPR'),
+                                                Text(
+                                                    'Direktorat Jendral Sumber Daya Air'),
+                                                Text(
+                                                    'Balai Wilayah Sungai Sulawesi III'),
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
       ),
-      bottomNavigationBar: Container(
-        height: 90,
-        decoration: BoxDecoration(
-          color: mFillColor,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
-              spreadRadius: 2,
-              blurRadius: 15,
-              offset: const Offset(0, 5),
-            )
-          ],
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(24),
-            topRight: Radius.circular(24),
-          ),
-        ),
-        child: BottomNavigationBar(
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/icons/home.svg',
-                height: 20,
-              ),
-              label: 'Beranda',
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/icons/absen.svg',
-                height: 20,
-              ),
-              label: 'Absen',
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/icons/user.svg',
-                height: 20,
-              ),
-              label: 'Profil',
-            ),
-          ],
-          selectedItemColor: Colors.black,
-          backgroundColor: Colors.transparent,
-          selectedFontSize: 12,
-          showUnselectedLabels: true,
-          elevation: 0,
-          onTap: _onItemTapped,
-        ),
-      ),
+      bottomNavigationBar: BottomNavBar(),
     );
   }
 }

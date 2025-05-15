@@ -76,7 +76,9 @@ class _DetailPScreenState extends State<DetailPScreen> {
     return Scaffold(
       body: _isLoading
           ? const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                color: mBluePu,
+              ),
             )
           : _isError
               ? Center(

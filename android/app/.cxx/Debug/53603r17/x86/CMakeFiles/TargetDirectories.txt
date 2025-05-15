@@ -1,0 +1,2 @@
+/Users/rahmadkurniawan/Documents/GitHub/presensi-M-new/android/app/.cxx/Debug/53603r17/x86/CMakeFiles/edit_cache.dir
+/Users/rahmadkurniawan/Documents/GitHub/presensi-M-new/android/app/.cxx/Debug/53603r17/x86/CMakeFiles/rebuild_cache.dir

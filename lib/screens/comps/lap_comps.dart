@@ -1,18 +1,15 @@
 import 'dart:async';
-import 'dart:io';
 
-import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:get_it/get_it.dart';
 import 'package:presensi/constants/color_constant.dart';
 import 'package:presensi/constants/prepdf_items.dart';
 import 'package:presensi/constants/style_contant.dart';
 import 'package:presensi/models/lap_model.dart';
-import 'package:presensi/screens/lap_screen.dart';
+import 'package:presensi/screens/lapd_screen.dart';
+import 'package:presensi/screens/lapu_screen.dart';
 import 'package:presensi/screens/masuk_screen.dart';
 import 'package:presensi/services/lap_services.dart';
 
@@ -84,9 +81,7 @@ class _LapSectionState extends State<LapSection> {
             ? const Column(
                 children: <Widget>[
                   CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      Color.fromRGBO(255, 66, 66, 1),
-                    ),
+                    color: mBluePu,
                   ),
                 ],
               )
@@ -146,6 +141,7 @@ class LapItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Column(
       children: <Widget>[
         Container(
@@ -213,20 +209,109 @@ class LapItem extends StatelessWidget {
                 ),
                 Column(
                   children: <Widget>[
-                    DefaultButton(
-                      text: "LAPORAN",
-                      press: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PrePdf(
-                              name:
-                                  'Berkas Laporan Bulan $lapBln Tahun $lapThn',
-                              pdf: lapFl,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      spacing: 10,
+                      children: <Widget>[
+                        Container(
+                          width: (size.width / 2.5) - 20,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.015),
+                                spreadRadius: 10,
+                                blurRadius: 10,
+                              ),
+                            ],
+                          ),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PrePdf(
+                                    name:
+                                        'Berkas Laporan Bulan $lapBln Tahun $lapThn',
+                                    pdf: lapFl,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                gradient: const LinearGradient(
+                                  colors: [
+                                    mBluePu,
+                                    mBluePu,
+                                  ],
+                                ),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'LAPORAN',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
-                        );
-                      },
+                        ),
+                        Container(
+                          width: (size.width / 2.5) - 20,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.015),
+                                spreadRadius: 10,
+                                blurRadius: 10,
+                              ),
+                            ],
+                          ),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LapuScreen(
+                                    bln: lapBln,
+                                    thn: lapThn,
+                                    id: id,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                gradient: const LinearGradient(
+                                  colors: [
+                                    mYellowPu,
+                                    mYellowPu,
+                                  ],
+                                ),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'UBAH',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     lapKet != ''
                         ? Column(
@@ -234,12 +319,15 @@ class LapItem extends StatelessWidget {
                               Divider(),
                               DefaultButton(
                                 text: "KETERANGAN",
-                                press: () => showBottomModal(
+                                press: () => Navigator.pushReplacement(
                                   context,
-                                  LapBottomSection(
-                                    ket: lapKet,
+                                  MaterialPageRoute(
+                                    builder: (context) => LapdScreen(
+                                      ket: lapKet,
+                                      bln: lapBln,
+                                      thn: lapThn,
+                                    ),
                                   ),
-                                  420,
                                 ),
                               ),
                             ],
@@ -256,434 +344,5 @@ class LapItem extends StatelessWidget {
         ),
       ],
     );
-  }
-}
-
-class LapBottomSection extends StatefulWidget {
-  final String ket;
-
-  const LapBottomSection({
-    super.key,
-    required this.ket,
-  });
-
-  @override
-  State<LapBottomSection> createState() => _LapBottomSectionState();
-}
-
-class _LapBottomSectionState extends State<LapBottomSection> {
-  late String _ket;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    setState(() {
-      _ket = widget.ket;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20),
-      child: ListView(
-        children: <Widget>[
-          Column(
-            children: <Widget>[
-              const SizedBox(
-                height: 10,
-              ),
-              Center(
-                child: TextButton.icon(
-                  style: TextButton.styleFrom(
-                    iconColor: Colors.black,
-                    foregroundColor: Colors.transparent,
-                    backgroundColor: Colors.transparent,
-                    overlayColor: Colors.transparent,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  label: const Text(
-                    'LIHAT KETERANGAN PENILAIAN',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  icon: const Icon(
-                    Icons.arrow_back,
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                padding: const EdgeInsets.only(left: 10, right: 10),
-                child: HtmlWidget(_ket),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class LapBottomUploadSection extends StatefulWidget {
-  const LapBottomUploadSection({super.key});
-
-  @override
-  State<LapBottomUploadSection> createState() => _LapBottomUploadSectionState();
-}
-
-class _LapBottomUploadSectionState extends State<LapBottomUploadSection> {
-  String? lapThn;
-  String? lapBln;
-
-  final TextEditingController namaFl = TextEditingController();
-  File? lapFl;
-
-  bool _isLoading = false;
-
-  LapServices get serviceLap => GetIt.I<LapServices>();
-
-  List<Year>? year;
-  List<Month>? month;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    setState(() {
-      _isLoading = true;
-    });
-    serviceLap.getYear().then((value) async {
-      if (value.status != 200) {
-        Timer(
-          const Duration(seconds: 3),
-          () => Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const MasukScreen(),
-            ),
-          ),
-        );
-      }
-
-      setState(() {
-        year = value.data;
-        serviceLap.getMonth().then((value) async {
-          if (value.status != 200) {
-            Timer(
-              const Duration(seconds: 3),
-              () => Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const MasukScreen(),
-                ),
-              ),
-            );
-          }
-
-          setState(() {
-            month = value.data;
-            _isLoading = false;
-          });
-        }).catchError((_) {
-          Timer(
-            const Duration(seconds: 3),
-            () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const MasukScreen(),
-              ),
-            ),
-          );
-        });
-      });
-    }).catchError((_) {
-      Timer(
-        const Duration(seconds: 3),
-        () => Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const MasukScreen(),
-          ),
-        ),
-      );
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return _isLoading
-        ? SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: const Column(
-              children: <Widget>[
-                CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    Color.fromRGBO(255, 66, 66, 1),
-                  ),
-                ),
-              ],
-            ),
-          )
-        : Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            child: ListView(
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Center(
-                      child: TextButton.icon(
-                        style: TextButton.styleFrom(
-                          iconColor: Colors.black,
-                          foregroundColor: Colors.transparent,
-                          backgroundColor: Colors.transparent,
-                          overlayColor: Colors.transparent,
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        label: const Text(
-                          'TAMBAH LAPORAN',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        icon: const Icon(
-                          Icons.arrow_back,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    TextFieldContainer(
-                      child: DropdownButtonFormField(
-                        isExpanded: true,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          prefixIcon: Icon(
-                            Icons.calendar_month,
-                            size: 20,
-                          ),
-                          labelText: 'BULAN',
-                          labelStyle: TextStyle(
-                            fontSize: 15,
-                            color: Colors.blue,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                        items: month!.map((item) {
-                          return DropdownMenuItem(
-                            value: item.val,
-                            child: Text(item.name),
-                          );
-                        }).toList(),
-                        hint: const Text(
-                          "BULAN",
-                          style: TextStyle(fontSize: 15),
-                        ),
-                        value: lapBln,
-                        onChanged: (value) {
-                          setState(() {
-                            lapBln = value;
-                          });
-                        },
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TextFieldContainer(
-                      child: DropdownButtonFormField(
-                        isExpanded: true,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          prefixIcon: Icon(
-                            Icons.calendar_today_rounded,
-                            size: 20,
-                          ),
-                          labelText: 'TAHUN',
-                          labelStyle: TextStyle(
-                            fontSize: 15,
-                            color: Colors.blue,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                        items: year!.map((item) {
-                          return DropdownMenuItem(
-                            value: item.year.toString(),
-                            child: Text(item.year.toString()),
-                          );
-                        }).toList(),
-                        hint: const Text(
-                          "TAHUN",
-                          style: TextStyle(fontSize: 15),
-                        ),
-                        value: lapThn,
-                        onChanged: (value) {
-                          setState(() {
-                            lapThn = value;
-                          });
-                        },
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          SizedBox(
-                            width: size.width / 2,
-                            child: TextFieldContainer(
-                              child: TextField(
-                                readOnly: true,
-                                controller: namaFl,
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                  prefixIcon: Icon(
-                                    Icons.file_present_outlined,
-                                    size: 20,
-                                  ),
-                                  labelText: 'Nama Berkas',
-                                  labelStyle: TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.blue,
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          DefaultCostumWidthButton(
-                            text: 'PILIH',
-                            press: (() async {
-                              FilePickerResult? result =
-                                  await FilePicker.platform.pickFiles();
-
-                              if (result != null) {
-                                setState(() {
-                                  lapFl = File(result.files.single.path!);
-                                  namaFl.text = result.files.single.name;
-                                });
-                              }
-                            }),
-                            width: size.width / 3,
-                            color: mYellowPu,
-                            splashColor: mYellowPu,
-                            colorText: Colors.black,
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          DefaultCostumWidthButton(
-                            text: 'SIMPAN',
-                            press: () async {
-                              setState(() {
-                                _isLoading = true;
-                              });
-                              if (lapBln == null ||
-                                  lapBln! == '' ||
-                                  lapThn == null ||
-                                  lapThn! == '' ||
-                                  lapFl == null) {
-                                Fluttertoast.showToast(
-                                  msg: 'Lengkapi Data Terlebih Dahulu',
-                                  toastLength: Toast.LENGTH_LONG,
-                                  gravity: ToastGravity.TOP,
-                                  timeInSecForIosWeb: 1,
-                                  backgroundColor: Colors.red,
-                                  textColor: Colors.white,
-                                  fontSize: 14.0,
-                                );
-                              } else {
-                                final result = await serviceLap.createLap(
-                                    lapBln!, lapThn!, lapFl!.path);
-                                setState(() {
-                                  _isLoading = false;
-                                });
-                                final title =
-                                    result.error ? 'Maaf' : 'Terima Kasih';
-                                final text = result.error
-                                    ? result.errorMessage
-                                    : 'Laporan Berhasil Disimpan';
-                                final dialog = result.error
-                                    ? DialogType.error
-                                    : DialogType.success;
-                                AwesomeDialog(
-                                  context: context,
-                                  dialogType: dialog,
-                                  animType: AnimType.topSlide,
-                                  title: title,
-                                  desc: text!,
-                                  btnOkOnPress: () {
-                                    Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => LapScreen(),
-                                      ),
-                                      (Route<dynamic> route) => false,
-                                    );
-                                  },
-                                ).show();
-                              }
-                            },
-                            width: size.width / 3,
-                            color: mBluePu,
-                            splashColor: mBluePu,
-                            colorText: Colors.white,
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          DefaultCostumWidthButton(
-                            text: 'BATAL',
-                            press: () {
-                              Navigator.pop(context);
-                            },
-                            width: size.width / 3,
-                            color: Colors.grey,
-                            splashColor: Colors.grey.shade600,
-                            colorText: Colors.white,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          );
   }
 }

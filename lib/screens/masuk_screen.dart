@@ -59,7 +59,9 @@ class _MasukScreenState extends State<MasukScreen> {
           padding: const EdgeInsets.only(left: 15, right: 15),
           child: _isLoading
               ? const Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    color: mBluePu,
+                  ),
                 )
               : ListView(
                   children: <Widget>[

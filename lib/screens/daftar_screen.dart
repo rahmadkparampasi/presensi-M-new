@@ -93,7 +93,9 @@ class _DaftarScreenState extends State<DaftarScreen> {
           margin: const EdgeInsets.all(10),
           child: _isLoading
               ? const Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    color: mBluePu,
+                  ),
                 )
               : satker == null
                   ? Center(

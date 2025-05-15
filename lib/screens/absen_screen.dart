@@ -116,7 +116,9 @@ class _AbsenScreenState extends State<AbsenScreen> {
         margin: const EdgeInsets.all(10),
         child: _isLoading
             ? const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: mBluePu,
+                ),
               )
             : absenDetail == null
                 ? Container(

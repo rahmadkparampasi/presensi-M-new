@@ -5,6 +5,7 @@ import 'package:presensi/constants/var_constant.dart';
 import 'package:presensi/screens/absenlist_screen.dart';
 import 'package:presensi/screens/detail_screen.dart';
 import 'package:presensi/screens/lap_screen.dart';
+import 'package:presensi/screens/survei_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AbsensiItem extends StatelessWidget {
@@ -316,6 +317,16 @@ class _MenuSectionState extends State<MenuSection> {
               context,
               MaterialPageRoute(
                 builder: (context) => LapScreen(),
+              ),
+            ),
+      },
+      {
+        "title": "SURVEI",
+        "icon": Icons.checklist,
+        "onTap": () => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SurveiScreen(),
               ),
             ),
       },

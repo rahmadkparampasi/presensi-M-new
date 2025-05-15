@@ -140,4 +140,51 @@ class LapServices {
           error: true, errorMessage: e.toString(), color: Colors.red);
     }
   }
+
+  Future<APIResponse> updateLap(
+    String id,
+    String c,
+    String path,
+  ) async {
+    Uri newApiUrl = Uri.parse('$apiServerN/lap/update');
+    final token = await FileUtilsUser.getToken();
+
+    Map<String, String> headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+    final send = http.MultipartRequest('POST', newApiUrl);
+
+    send.fields["lap_id"] = id;
+    send.fields["lap_c"] = c;
+
+    send.files.add(await http.MultipartFile.fromPath(
+      'lap_fl',
+      path,
+    ));
+    send.headers.addAll(headers);
+    try {
+      final streamedResponse = await send.send();
+
+      final response = await http.Response.fromStream(streamedResponse);
+
+      if (streamedResponse.statusCode == 200) {
+        return APIResponse(
+          status: streamedResponse.statusCode,
+        );
+      } else {
+        final jsonData = json.decode(response.body);
+
+        return APIResponse(
+          error: true,
+          errorMessage: 'Terjadi Kesalahan',
+          data: jsonData['message'],
+          status: streamedResponse.statusCode,
+        );
+      }
+    } catch (e) {
+      return APIResponse(
+          error: true, errorMessage: e.toString(), color: Colors.red);
+    }
+  }
 }

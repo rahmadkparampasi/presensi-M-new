@@ -177,3 +177,22 @@ class SispUpdate {
     };
   }
 }
+
+class SispPwd {
+  String password;
+  String passwordConf;
+  String passwordOld;
+  SispPwd({
+    required this.password,
+    required this.passwordConf,
+    required this.passwordOld,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      "password": password,
+      "password_confirmation": passwordConf,
+      "password_old": passwordOld,
+    };
+  }
+}

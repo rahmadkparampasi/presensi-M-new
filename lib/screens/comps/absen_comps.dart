@@ -77,9 +77,7 @@ class _AbsensiBottomKalDetailSectionState
             child: const Column(
               children: <Widget>[
                 CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    Color.fromRGBO(255, 66, 66, 1),
-                  ),
+                  color: mBluePu,
                 ),
               ],
             ),
@@ -606,9 +604,7 @@ class _AbsensiBottomAbsThnSectionState
                 ),
                 Center(
                   child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      Color.fromRGBO(255, 66, 66, 1),
-                    ),
+                    color: mBluePu,
                   ),
                 ),
               ],
@@ -785,9 +781,7 @@ class _AbsensiBottomAbsBlnSectionState
                 ),
                 Center(
                   child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      Color.fromRGBO(255, 66, 66, 1),
-                    ),
+                    color: mBluePu,
                   ),
                 ),
               ],
@@ -958,9 +952,7 @@ class _AbsensiSectionState extends State<AbsensiSection> {
             ? const Column(
                 children: <Widget>[
                   CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      Color.fromRGBO(255, 66, 66, 1),
-                    ),
+                    color: mBluePu,
                   ),
                 ],
               )

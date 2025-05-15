@@ -114,7 +114,9 @@ class _DetailScreenState extends State<DetailScreen> {
         ),
         child: _isLoading
             ? const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: mBluePu,
+                ),
               )
             : _isError
                 ? Center(

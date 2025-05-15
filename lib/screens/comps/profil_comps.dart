@@ -216,6 +216,19 @@ class _ProfilDetailSectionState extends State<ProfilDetailSection> {
                   height: 10,
                 ),
                 DefaultButton(
+                  text: "UBAH PASSWORD",
+                  press: () {
+                    showBottomModal(
+                      context,
+                      SispBottomPasswordSection(),
+                      500,
+                    );
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                DefaultButton(
                   text: "KELUAR",
                   press: () {
                     AwesomeDialog(
@@ -274,7 +287,9 @@ class _ProfilPicSectionState extends State<ProfilPicSection> {
   Widget build(BuildContext context) {
     return _isLoading
         ? const Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              color: mBluePu,
+            ),
           )
         : Center(
             child: Column(
@@ -595,9 +610,7 @@ class _ProfilBottomChangeState extends State<ProfilBottomChange> {
             child: const Column(
               children: <Widget>[
                 CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    Color.fromRGBO(255, 66, 66, 1),
-                  ),
+                  color: mBluePu,
                 ),
               ],
             ),
@@ -1116,5 +1129,247 @@ class _ProfilBottomChangeState extends State<ProfilBottomChange> {
                   ],
                 ),
               );
+  }
+}
+
+class SispBottomPasswordSection extends StatefulWidget {
+  const SispBottomPasswordSection({super.key});
+
+  @override
+  State<SispBottomPasswordSection> createState() =>
+      _SispBottomPasswordSectionState();
+}
+
+class _SispBottomPasswordSectionState extends State<SispBottomPasswordSection> {
+  final TextEditingController oldPwd = TextEditingController();
+  final TextEditingController pass = TextEditingController();
+  final TextEditingController passC = TextEditingController();
+
+  SispServices get serviceSisp => GetIt.I<SispServices>();
+
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return _isLoading
+        ? SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: const Column(
+              children: <Widget>[
+                CircularProgressIndicator(
+                  color: mBluePu,
+                ),
+              ],
+            ),
+          )
+        : Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20),
+            child: ListView(
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Center(
+                      child: TextButton.icon(
+                        style: TextButton.styleFrom(
+                          iconColor: Colors.black,
+                          foregroundColor: Colors.transparent,
+                          backgroundColor: Colors.transparent,
+                          overlayColor: Colors.transparent,
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        label: const Text(
+                          'UBAH PASSWORD',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        icon: const Icon(
+                          Icons.arrow_back,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFieldContainer(
+                      child: TextField(
+                        obscureText: true,
+                        enableSuggestions: false,
+                        autocorrect: false,
+                        controller: oldPwd,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          prefixIcon: Icon(
+                            Icons.lock_clock,
+                            size: 20,
+                          ),
+                          labelText: 'Password Lama',
+                          labelStyle: TextStyle(
+                            fontSize: 15,
+                            color: Colors.blue,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFieldContainer(
+                      child: TextField(
+                        obscureText: true,
+                        enableSuggestions: false,
+                        autocorrect: false,
+                        controller: pass,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          prefixIcon: Icon(
+                            Icons.lock_outlined,
+                            size: 20,
+                          ),
+                          labelText: 'Password Baru',
+                          labelStyle: TextStyle(
+                            fontSize: 15,
+                            color: Colors.blue,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFieldContainer(
+                      child: TextField(
+                        obscureText: true,
+                        enableSuggestions: false,
+                        autocorrect: false,
+                        controller: passC,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          prefixIcon: Icon(
+                            Icons.lock_outlined,
+                            size: 20,
+                          ),
+                          labelText: 'Ulangi Password Baru',
+                          labelStyle: TextStyle(
+                            fontSize: 15,
+                            color: Colors.blue,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          DefaultCostumWidthButton(
+                            text: 'SIMPAN',
+                            press: () async {
+                              setState(() {
+                                _isLoading = true;
+                              });
+                              if (oldPwd.text == '' ||
+                                  pass.text == '' ||
+                                  passC.text == '') {
+                                Fluttertoast.showToast(
+                                  msg: 'Lengkapi Data Terlebih Dahulu',
+                                  toastLength: Toast.LENGTH_LONG,
+                                  gravity: ToastGravity.TOP,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor: Colors.red,
+                                  textColor: Colors.white,
+                                  fontSize: 14.0,
+                                );
+                              } else {
+                                final sispPwd = SispPwd(
+                                    password: pass.text,
+                                    passwordConf: passC.text,
+                                    passwordOld: oldPwd.text);
+                                final result =
+                                    await serviceSisp.changePwd(sispPwd);
+                                setState(() {
+                                  _isLoading = false;
+                                });
+                                final title =
+                                    result.error ? 'Maaf' : 'Terima Kasih';
+                                final text = result.error
+                                    ? result.errorMessage
+                                    : 'Password Berhasil Diubah';
+                                final dialog = result.error
+                                    ? DialogType.error
+                                    : DialogType.success;
+                                AwesomeDialog(
+                                  context: context,
+                                  dialogType: dialog,
+                                  animType: AnimType.topSlide,
+                                  title: title,
+                                  desc: text!,
+                                  btnOkOnPress: () {
+                                    FileUtilsUser.saveToFile("").then((value) {
+                                      Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const MasukScreen(),
+                                        ),
+                                        (Route<dynamic> route) => false,
+                                      );
+                                    });
+                                  },
+                                ).show();
+                              }
+                            },
+                            width: size.width / 3,
+                            color: mBluePu,
+                            splashColor: mBluePu,
+                            colorText: Colors.white,
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          DefaultCostumWidthButton(
+                            text: 'BATAL',
+                            press: () {
+                              Navigator.pop(context);
+                            },
+                            width: size.width / 3,
+                            color: Colors.grey,
+                            splashColor: Colors.grey.shade600,
+                            colorText: Colors.white,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 80,
+                    ),
+                  ],
+                )
+              ],
+            ),
+          );
   }
 }

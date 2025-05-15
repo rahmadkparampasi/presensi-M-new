@@ -135,7 +135,9 @@ class _DetailPCScreenState extends State<DetailPCScreen> {
             margin: const EdgeInsets.all(10),
             child: _isLoading
                 ? const Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(
+                      color: mBluePu,
+                    ),
                   )
                 : _isError
                     ? Center(

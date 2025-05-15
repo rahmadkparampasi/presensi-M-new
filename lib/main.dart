@@ -7,6 +7,7 @@ import 'package:presensi/services/ppk_services.dart';
 import 'package:presensi/services/satker_services.dart';
 import 'package:presensi/services/setpd_services.dart';
 import 'package:presensi/services/sisp_services.dart';
+import 'package:presensi/services/survei_services.dart';
 
 void setupLocator() {
   GetIt.I.registerLazySingleton(() => AbsenService());
@@ -15,6 +16,7 @@ void setupLocator() {
   GetIt.I.registerLazySingleton(() => SispServices());
   GetIt.I.registerLazySingleton(() => LapServices());
   GetIt.I.registerLazySingleton(() => SetpdServices());
+  GetIt.I.registerLazySingleton(() => SurveiServices());
 }
 
 void main() {

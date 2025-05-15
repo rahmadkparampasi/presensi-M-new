@@ -80,6 +80,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
 
   getDate() {
     setState(() {
+      _isLoading = true;
       _day = DateTime.now().day;
       _weekDay = DateTime.now().weekday;
       _month = DateTime.now().month;
@@ -90,6 +91,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
       _hour = DateTime.now().hour;
       _min = DateTime.now().minute;
       _sec = DateTime.now().second;
+      _isLoading = false;
     });
   }
 
@@ -97,6 +99,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return ListView(
       physics: const ClampingScrollPhysics(),
       children: <Widget>[
@@ -228,7 +231,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                       ],
                     )
                   : Container(
-                      height: absenHome!.length > 3 ? 300 : 200,
+                      height: absenHome!.length > 3 ? size.height / 3 : 200,
                       padding: const EdgeInsets.only(left: 8, right: 8),
                       child: ListView(
                         children: List.generate(absenHome!.length, (index) {
@@ -251,7 +254,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
           height: absenHome == null
               ? 100
               : absenHome!.length > 3
-                  ? 50
+                  ? 20
                   : 250,
         ),
         const Center(

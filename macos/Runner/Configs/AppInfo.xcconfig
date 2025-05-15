@@ -8,7 +8,7 @@
 PRODUCT_NAME = presensi
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.bwssul3.presensi
+PRODUCT_BUNDLE_IDENTIFIER = com.bwssul3.presensinew
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2025 com.bwssul3. All rights reserved.

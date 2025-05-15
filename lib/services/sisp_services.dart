@@ -138,4 +138,25 @@ class SispServices {
     }).catchError((data) => APIResponse(
         error: true, errorMessage: data.toString(), color: Colors.red));
   }
+
+  Future<APIResponse> changePwd(SispPwd sisp) async {
+    final token = await FileUtilsUser.getToken();
+    Uri newApiUrl = Uri.parse('$apiServerN/user/updatePwdA');
+    return http.post(newApiUrl, body: sisp.toJson(), headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    }).then((data) {
+      if (data.statusCode == 200) {
+        final jsonData = json.decode(data.body)['message'];
+
+        return APIResponse(
+            errorMessage: jsonData, error: false, color: Colors.green);
+      } else {
+        final jsonData = json.decode(data.body)['message'];
+        return APIResponse(
+            error: true, errorMessage: jsonData, color: Colors.red);
+      }
+    }).catchError((data) => APIResponse(
+        error: true, errorMessage: data.toString(), color: Colors.red));
+  }
 }
